@@ -1,7 +1,7 @@
 import { ProductService } from './../../services/product.service';
-import { ProductResponseModel } from './../../models/productResponseModel';
 import { Component, OnInit } from '@angular/core';
 import { Product } from 'src/app/models/product';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -13,7 +13,7 @@ export class ProductComponent implements OnInit {
 
 
   products: Product[] = []
-  dataLoaded = false
+  dataLoadedForProducts = false
   // productResponseModel:ProductResponseModel = {
   //   data : this.products,
   //   message:"",
@@ -21,18 +21,33 @@ export class ProductComponent implements OnInit {
   // }
 
 
-  constructor(private productService: ProductService) { }
+  constructor(private productService: ProductService, private activatedRoute:ActivatedRoute) { }
 
   ngOnInit(): void {
-    //console.log("init çalıştı");
-    this.getProducts();
+    
+    this.activatedRoute.params.subscribe(params => {
+      if (params["categoryId"]) {
+        this.getProductsByCategory(params["categoryId"])
+      }else{
+        this.getProducts();
+      } 
+    })
+
   }
 
   getProducts() {
     console.log("api request Başladı")
     this.productService.getProducts().subscribe(response => {
       this.products = response.data;
-      this.dataLoaded = true
+      this.dataLoadedForProducts = true
+    })
+    console.log("Method Bitti");
+  }
+  getProductsByCategory(categoryId:number) {
+    console.log("api request Başladı")
+    this.productService.getProductsByCategory(categoryId).subscribe(response => {
+      this.products = response.data;
+      this.dataLoadedForProducts = true
     })
     console.log("Method Bitti");
   }
