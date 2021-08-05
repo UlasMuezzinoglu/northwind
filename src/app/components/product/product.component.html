@@ -1,4 +1,17 @@
-<table class="table">
+<div *ngIf="dataLoaded==false" class="spinner-border text-dark" role="status">
+    <span class="visually-hidden">Loading...</span>
+</div>
+
+<table class="table" *ngIf="dataLoaded ==true">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Ürün Adı</th>
+            <th>Kategori ID</th>
+            <th>Fiyat</th>
+            <th>Stok Adedi</th>
+        </tr>
+    </thead>
     <tr *ngFor="let product of products">
         <td>
             {{product.productId}}
@@ -14,6 +27,6 @@
         </td>
         <td>
             {{product.unitsInStock}}
-        </td>    
+        </td>
     </tr>
 </table>
