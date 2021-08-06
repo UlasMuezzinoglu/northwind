@@ -14,6 +14,7 @@ export class ProductComponent implements OnInit {
 
   products: Product[] = []
   dataLoadedForProducts = false
+  filterText: string= '';
   // productResponseModel:ProductResponseModel = {
   //   data : this.products,
   //   message:"",
