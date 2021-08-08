@@ -1,7 +1,9 @@
+import { CartService } from './../../services/cart.service';
 import { ProductService } from './../../services/product.service';
 import { Component, OnInit } from '@angular/core';
 import { Product } from 'src/app/models/product';
 import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -22,7 +24,10 @@ export class ProductComponent implements OnInit {
   // }
 
 
-  constructor(private productService: ProductService, private activatedRoute:ActivatedRoute) { }
+  constructor(private productService: ProductService,
+    private activatedRoute:ActivatedRoute,
+    private toastrService:ToastrService,
+    private cartService:CartService) { }
 
   ngOnInit(): void {
     
@@ -51,6 +56,13 @@ export class ProductComponent implements OnInit {
       this.dataLoadedForProducts = true
     })
     console.log("Method Bitti");
+  }
+
+  addToCart(product:Product){
+    
+    this.cartService.addToCart(product);
+    this.toastrService.success("Sepete Eklendi",product.productName)
+  
   }
 
 }
